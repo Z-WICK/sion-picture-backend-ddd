@@ -3,9 +3,9 @@ package com.sion.sionpicturebackend.manager.upload;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.*;
-import com.sion.sionpicturebackend.exception.BusinessException;
-import com.sion.sionpicturebackend.exception.ErrorCode;
-import com.sion.sionpicturebackend.exception.ThrowUtils;
+import com.sion.sionpicture.infrastructure.exception.BusinessException;
+import com.sion.sionpicture.infrastructure.exception.ErrorCode;
+import com.sion.sionpicture.infrastructure.exception.ThrowUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

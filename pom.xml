@@ -194,7 +194,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.sion.sionpicturebackend.SionPictureBackendApplication</mainClass>
+                    <mainClass>com.sion.sionpicture.SionPictureBackendApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

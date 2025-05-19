@@ -1,6 +1,6 @@
 package com.sion.sionpicturebackend.model.dto.space;
 
-import com.sion.sionpicturebackend.common.PageRequest;
+import com.sion.sionpicture.infrastructure.common.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

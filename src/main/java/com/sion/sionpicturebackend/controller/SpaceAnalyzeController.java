@@ -1,9 +1,9 @@
 package com.sion.sionpicturebackend.controller;
 
-import com.sion.sionpicturebackend.common.BaseResponse;
-import com.sion.sionpicturebackend.common.ResultUtils;
-import com.sion.sionpicturebackend.exception.ErrorCode;
-import com.sion.sionpicturebackend.exception.ThrowUtils;
+import com.sion.sionpicture.infrastructure.common.BaseResponse;
+import com.sion.sionpicture.infrastructure.common.ResultUtils;
+import com.sion.sionpicture.infrastructure.exception.ErrorCode;
+import com.sion.sionpicture.infrastructure.exception.ThrowUtils;
 import com.sion.sionpicturebackend.model.dto.space.analyze.*;
 import com.sion.sionpicturebackend.model.entity.Space;
 import com.sion.sionpicturebackend.model.entity.User;

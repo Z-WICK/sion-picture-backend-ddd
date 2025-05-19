@@ -1,7 +1,7 @@
 package com.sion.sionpicturebackend.manager;
 
 import cn.hutool.core.io.FileUtil;
-import com.sion.sionpicturebackend.config.R2ClientConfig;
+import com.sion.sionpicture.infrastructure.config.R2ClientConfig;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;

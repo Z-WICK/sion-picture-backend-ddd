@@ -1,8 +1,8 @@
 package com.sion.sionpicturebackend.manager.upload;
 
 import cn.hutool.core.io.FileUtil;
-import com.sion.sionpicturebackend.exception.ErrorCode;
-import com.sion.sionpicturebackend.exception.ThrowUtils;
+import com.sion.sionpicture.infrastructure.exception.ErrorCode;
+import com.sion.sionpicture.infrastructure.exception.ThrowUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

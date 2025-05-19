@@ -1,6 +1,6 @@
 package com.sion.sionpicturebackend.model.dto.picture;
 
-import com.sion.sionpicturebackend.api.aliyunai.model.CreateOutPaintingTaskRequest;
+import com.sion.sionpicture.infrastructure.api.aliyunai.model.CreateOutPaintingTaskRequest;
 import lombok.Data;
 
 import java.io.Serializable;

@@ -1,15 +1,15 @@
 package com.sion.sionpicturebackend.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sion.sionpicturebackend.annotation.AuthCheck;
+import com.sion.sionpicture.infrastructure.annotation.AuthCheck;
 import com.sion.sionpicturebackend.auth.SpaceUserAuthManager;
-import com.sion.sionpicturebackend.common.BaseResponse;
-import com.sion.sionpicturebackend.common.DeleteRequest;
-import com.sion.sionpicturebackend.common.ResultUtils;
+import com.sion.sionpicture.infrastructure.common.BaseResponse;
+import com.sion.sionpicture.infrastructure.common.DeleteRequest;
+import com.sion.sionpicture.infrastructure.common.ResultUtils;
 import com.sion.sionpicturebackend.constant.UserConstant;
-import com.sion.sionpicturebackend.exception.BusinessException;
-import com.sion.sionpicturebackend.exception.ErrorCode;
-import com.sion.sionpicturebackend.exception.ThrowUtils;
+import com.sion.sionpicture.infrastructure.exception.BusinessException;
+import com.sion.sionpicture.infrastructure.exception.ErrorCode;
+import com.sion.sionpicture.infrastructure.exception.ThrowUtils;
 import com.sion.sionpicturebackend.model.dto.space.*;
 import com.sion.sionpicturebackend.model.entity.Space;
 import com.sion.sionpicturebackend.model.entity.User;
