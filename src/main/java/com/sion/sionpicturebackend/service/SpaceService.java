@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.sion.sionpicturebackend.model.dto.space.SpaceAddRequest;
 import com.sion.sionpicturebackend.model.dto.space.SpaceQueryRequest;
 import com.sion.sionpicturebackend.model.entity.Space;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.vo.space.SpaceVO;
 
 import javax.servlet.http.HttpServletRequest;

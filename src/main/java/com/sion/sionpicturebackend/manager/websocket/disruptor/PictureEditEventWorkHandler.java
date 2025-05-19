@@ -6,8 +6,8 @@ import com.sion.sionpicturebackend.manager.websocket.PictureEditHandler;
 import com.sion.sionpicturebackend.manager.websocket.model.PictureEditMessageTypeEnum;
 import com.sion.sionpicturebackend.manager.websocket.model.PictureEditRequestMessage;
 import com.sion.sionpicturebackend.manager.websocket.model.PictureEditResponseMessage;
-import com.sion.sionpicturebackend.model.entity.User;
-import com.sion.sionpicturebackend.service.UserService;
+import com.sion.sionpicture.domain.user.entity.User;
+import com.sion.sionpicture.application.service.UserApplicationService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -28,7 +28,7 @@ public class PictureEditEventWorkHandler implements WorkHandler<PictureEditEvent
     private PictureEditHandler pictureEditHandler;
 
     @Resource
-    private UserService userService;
+    private UserApplicationService userApplicationService;
 
     public void onEvent(PictureEditEvent pictureEditEvent) throws Exception {
         PictureEditRequestMessage pictureEditRequestMessage = pictureEditEvent.getPictureEditRequestMessage();
@@ -54,7 +54,7 @@ public class PictureEditEventWorkHandler implements WorkHandler<PictureEditEvent
                 PictureEditResponseMessage pictureEditResponseMessage = new PictureEditResponseMessage();
                 pictureEditResponseMessage.setType(PictureEditMessageTypeEnum.ERROR.getValue());
                 pictureEditResponseMessage.setMessage("消息类型错误");
-                pictureEditResponseMessage.setUser(userService.getUserVO(user));
+                pictureEditResponseMessage.setUser(userApplicationService.getUserVO(user));
                 session.sendMessage(new TextMessage(JSONUtil.toJsonStr(pictureEditResponseMessage)));
                 break;
         }

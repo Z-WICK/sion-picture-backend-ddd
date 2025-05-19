@@ -16,13 +16,13 @@ import com.sion.sionpicture.infrastructure.exception.ErrorCode;
 import com.sion.sionpicturebackend.model.entity.Picture;
 import com.sion.sionpicturebackend.model.entity.Space;
 import com.sion.sionpicturebackend.model.entity.SpaceUser;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.enums.SpaceRoleEnum;
 import com.sion.sionpicturebackend.model.enums.SpaceTypeEnum;
 import com.sion.sionpicturebackend.service.PictureService;
 import com.sion.sionpicturebackend.service.SpaceService;
 import com.sion.sionpicturebackend.service.SpaceUserService;
-import com.sion.sionpicturebackend.service.UserService;
+import com.sion.sionpicture.application.service.UserApplicationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -32,7 +32,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-import static com.sion.sionpicturebackend.constant.UserConstant.USER_LOGIN_STATE;
+import static com.sion.sionpicture.domain.user.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
  * 自定义权限加载接口实现类
@@ -44,7 +44,7 @@ public class StpInterfaceImpl implements StpInterface {
     private String contextPath;
 
     @Resource
-    private UserService userService;
+    private UserApplicationService userApplicationService;
 
     @Resource
     private SpaceService spaceService;
@@ -132,7 +132,7 @@ public class StpInterfaceImpl implements StpInterface {
 
             //公共图库，仅本人或管理员可操作
             if (spaceId == null) {
-                if (picture.getUserId().equals(userId) || userService.isAdmin(loginUser)) {
+                if (picture.getUserId().equals(userId) || loginUser.isAdmin()) {
                     return ADMIN_PERMISSIONS;
                 } else {
                     // 不是自己的图片，仅可查询
@@ -150,7 +150,7 @@ public class StpInterfaceImpl implements StpInterface {
         // 根据 Space 类型判断权限
         if (space.getSpaceType() == SpaceTypeEnum.PRIVATE.getValue()) {
             // 私有空间，仅本人或管理员可操作
-            if (space.getUserId().equals(userId) || userService.isAdmin(loginUser)) {
+            if (space.getUserId().equals(userId) || loginUser.isAdmin()) {
                 return ADMIN_PERMISSIONS;
             } else {
                 return new ArrayList<>();

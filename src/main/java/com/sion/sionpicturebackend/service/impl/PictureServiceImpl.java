@@ -23,7 +23,7 @@ import com.sion.sionpicturebackend.model.dto.file.UploadPictureResult;
 import com.sion.sionpicturebackend.model.dto.picture.*;
 import com.sion.sionpicturebackend.model.entity.Picture;
 import com.sion.sionpicturebackend.model.entity.Space;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.enums.PictureReviewStatusEnum;
 import com.sion.sionpicturebackend.model.vo.picture.PictureVO;
 import com.sion.sionpicturebackend.model.vo.user.UserVO;
@@ -33,7 +33,7 @@ import com.sion.sionpicturebackend.review.PublicGalleryReviewStrategy;
 import com.sion.sionpicturebackend.review.ReviewStrategy;
 import com.sion.sionpicturebackend.service.PictureService;
 import com.sion.sionpicturebackend.service.SpaceService;
-import com.sion.sionpicturebackend.service.UserService;
+import com.sion.sionpicture.application.service.UserApplicationService;
 import com.sion.sionpicture.infrastructure.utils.ColorSimilarUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -68,7 +68,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         implements PictureService {
 
     @Resource
-    private UserService userService;
+    private UserApplicationService userApplicationService;
 
 
     @Resource
@@ -335,8 +335,8 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         //关联查询用户信息
         Long userId = picture.getUserId();
         if (ObjUtil.isNotEmpty(userId) && userId > 0) {
-            User user = userService.getById(userId);
-            UserVO userVO = userService.getUserVO(user);
+            User user = userApplicationService.getById(userId);
+            UserVO userVO = userApplicationService.getUserVO(user);
             pictureVO.setUser(userVO);
         }
         return pictureVO;
@@ -377,7 +377,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         // picture -> picture.getUserId()
         Set<Long> userIdSet = pictureList.stream().map(Picture::getUserId).collect(Collectors.toSet());
         // 根据userIdSet中的userId，从userService中获取对应的User列表，存入userIdUserListMap中
-        Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
+        Map<Long, List<User>> userIdUserListMap = userApplicationService.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
 
         // 2.填充信息
@@ -393,7 +393,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
                 user = userIdUserListMap.get(userId).get(0);
             }
             // 将user转换为UserVO并设置到pictureVO中
-            pictureVO.setUser(userService.getUserVO(user));
+            pictureVO.setUser(userApplicationService.getUserVO(user));
         });
 
         // 将pictureVOList设置到pictureVOPage中
@@ -631,7 +631,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         Long spaceId = picture.getSpaceId();
         if (spaceId == null) {
             // 公共图库，仅本人或管理员可操作
-            if (!loginUser.getId().equals(picture.getUserId()) && !userService.isAdmin(loginUser)) {
+            if (!loginUser.getId().equals(picture.getUserId()) && !userApplicationService.isAdmin(loginUser)) {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "无权限操作");
             } else {
                 // 私有空间，仅空间管理员可操作

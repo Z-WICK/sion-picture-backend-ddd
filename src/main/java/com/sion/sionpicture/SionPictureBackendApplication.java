@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication(exclude = {ShardingSphereAutoConfiguration.class})
 @EnableScheduling
 @EnableAsync
-@MapperScan("com.sion.sionpicturebackend.mapper")
+@MapperScan("com.sion.sionpicture.infrastructure.mapper")
 @EnableAspectJAutoProxy(exposeProxy = true)
 public class SionPictureBackendApplication {
 

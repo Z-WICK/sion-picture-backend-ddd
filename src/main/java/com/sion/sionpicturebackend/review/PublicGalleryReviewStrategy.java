@@ -1,9 +1,9 @@
 package com.sion.sionpicturebackend.review;
 
 import com.sion.sionpicturebackend.model.entity.Picture;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.enums.PictureReviewStatusEnum;
-import com.sion.sionpicturebackend.model.enums.UserRoleEnum;
+import com.sion.sionpicture.domain.user.valueobject.UserRoleEnum;
 
 import java.util.Date;
 import java.util.Objects;

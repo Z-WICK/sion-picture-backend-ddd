@@ -1,6 +1,5 @@
-package com.sion.sionpicturebackend.model.dto.user;
+package com.sion.sionpicture.interfaces.dto.user;
 
-import com.sion.sionpicture.infrastructure.common.PageRequest;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,12 +9,8 @@ import java.io.Serializable;
  * @Date : 2024/12/11 17:57
  */
 @Data
-public class UserQueryRequest extends PageRequest implements Serializable {
+public class UserAddRequest implements Serializable {
 
-    /**
-     * id
-     */
-    private Long id;
 
     /**
      * 账号
@@ -28,6 +23,10 @@ public class UserQueryRequest extends PageRequest implements Serializable {
      */
     private String userName;
 
+    /**
+     * 用户头像
+     */
+    private String userAvatar;
 
     /**
      * 用户简介

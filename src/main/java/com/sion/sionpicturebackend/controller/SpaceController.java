@@ -6,17 +6,17 @@ import com.sion.sionpicturebackend.auth.SpaceUserAuthManager;
 import com.sion.sionpicture.infrastructure.common.BaseResponse;
 import com.sion.sionpicture.infrastructure.common.DeleteRequest;
 import com.sion.sionpicture.infrastructure.common.ResultUtils;
-import com.sion.sionpicturebackend.constant.UserConstant;
+import com.sion.sionpicture.domain.user.constant.UserConstant;
 import com.sion.sionpicture.infrastructure.exception.BusinessException;
 import com.sion.sionpicture.infrastructure.exception.ErrorCode;
 import com.sion.sionpicture.infrastructure.exception.ThrowUtils;
 import com.sion.sionpicturebackend.model.dto.space.*;
 import com.sion.sionpicturebackend.model.entity.Space;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.enums.SpaceLevelEnum;
 import com.sion.sionpicturebackend.model.vo.space.SpaceVO;
 import com.sion.sionpicturebackend.service.SpaceService;
-import com.sion.sionpicturebackend.service.UserService;
+import com.sion.sionpicture.application.service.UserApplicationService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/space")
 public class SpaceController {
     @Resource
-    private UserService userService;
+    private UserApplicationService userApplicationService;
 
     @Resource
     private SpaceService spaceService;
@@ -46,7 +46,7 @@ public class SpaceController {
     @PostMapping("/add")
     public BaseResponse<Long> addSpace(@RequestBody SpaceAddRequest spaceAddRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(spaceAddRequest == null, ErrorCode.PARAMS_ERROR);
-        User loginUser = userService.getLoginUser(request);
+        User loginUser = userApplicationService.getLoginUser(request);
         long newId = spaceService.addSpace(spaceAddRequest, loginUser);
         return ResultUtils.success(newId);
     }
@@ -57,13 +57,13 @@ public class SpaceController {
         if (deleteRequest == null || deleteRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        User loginUser = userService.getLoginUser(request);
+        User loginUser = userApplicationService.getLoginUser(request);
         Long id = deleteRequest.getId();
         // 判断是否存在
         Space oldSpace = spaceService.getById(id);
         ThrowUtils.throwIf(oldSpace == null, ErrorCode.NOT_FOUND_ERROR);
         // 仅本人或者管理员可删除
-        if (!oldSpace.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
+        if (!oldSpace.getUserId().equals(loginUser.getId()) && !userApplicationService.isAdmin(loginUser)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         // 操作数据库
@@ -128,7 +128,7 @@ public class SpaceController {
         ThrowUtils.throwIf(space == null, ErrorCode.NOT_FOUND_ERROR);
 
         SpaceVO spaceVO = spaceService.getSpaceVO(space, request);
-        User loginUser = userService.getLoginUser(request);
+        User loginUser = userApplicationService.getLoginUser(request);
 
         List<String> permissionList = spaceUserAuthManager.getPermissionList(space, loginUser);
         spaceVO.setPermissionList(permissionList);
@@ -185,13 +185,13 @@ public class SpaceController {
         space.setEditTime(new Date());
         // 数据校验
         spaceService.validSpace(space, false);
-        User loginUser = userService.getLoginUser(request);
+        User loginUser = userApplicationService.getLoginUser(request);
         // 判断是否存在
         long id = spaceEditRequest.getId();
         Space oldSpace = spaceService.getById(id);
         ThrowUtils.throwIf(oldSpace == null, ErrorCode.NOT_FOUND_ERROR);
         // 仅本人或管理员可编辑
-        if (!oldSpace.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
+        if (!oldSpace.getUserId().equals(loginUser.getId()) && !userApplicationService.isAdmin(loginUser)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         // 操作数据库

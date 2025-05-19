@@ -1,7 +1,7 @@
 package com.sion.sionpicturebackend.manager.websocket.disruptor;
 
 import com.sion.sionpicturebackend.manager.websocket.model.PictureEditRequestMessage;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import lombok.Data;
 import org.springframework.web.socket.WebSocketSession;
 

@@ -8,11 +8,11 @@ import com.sion.sionpicturebackend.auth.model.SpaceUserPermissionConstant;
 import com.sion.sionpicturebackend.auth.model.SpaceUserRole;
 import com.sion.sionpicturebackend.model.entity.Space;
 import com.sion.sionpicturebackend.model.entity.SpaceUser;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.enums.SpaceRoleEnum;
 import com.sion.sionpicturebackend.model.enums.SpaceTypeEnum;
 import com.sion.sionpicturebackend.service.SpaceUserService;
-import com.sion.sionpicturebackend.service.UserService;
+import com.sion.sionpicture.application.service.UserApplicationService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -31,7 +31,7 @@ public class SpaceUserAuthManager {
     private SpaceUserService spaceUserService;
 
     @Resource
-    private UserService userService;
+    private UserApplicationService userApplicationService;
 
     public static final SpaceUserAuthConfig SPACE_USER_AUTH_CONFIG;
 
@@ -81,7 +81,7 @@ public class SpaceUserAuthManager {
 
         //公共图库
         if(space == null){
-            if (userService.isAdmin(loginUser)) {
+            if (loginUser.isAdmin()) {
                 return ADMIN_PERMISSIONS;
             }
             return Collections.singletonList(SpaceUserPermissionConstant.PICTURE_VIEW);
@@ -97,7 +97,7 @@ public class SpaceUserAuthManager {
         switch (spaceTypeEnum){
             case PRIVATE:
                 // 私有空间，仅本人或管理员有所有权限
-                if(space.getUserId().equals(loginUser.getId()) || userService.isAdmin(loginUser)){
+                if(space.getUserId().equals(loginUser.getId()) || loginUser.isAdmin()){
                     return ADMIN_PERMISSIONS;
                 }else {
                     return new ArrayList<>();

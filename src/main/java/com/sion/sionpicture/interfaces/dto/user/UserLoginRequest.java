@@ -1,4 +1,4 @@
-package com.sion.sionpicturebackend.model.dto.user;
+package com.sion.sionpicture.interfaces.dto.user;
 
 import lombok.Data;
 

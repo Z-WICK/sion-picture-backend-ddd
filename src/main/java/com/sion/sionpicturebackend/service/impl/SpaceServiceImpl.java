@@ -15,7 +15,7 @@ import com.sion.sionpicturebackend.model.dto.space.SpaceAddRequest;
 import com.sion.sionpicturebackend.model.dto.space.SpaceQueryRequest;
 import com.sion.sionpicturebackend.model.entity.Space;
 import com.sion.sionpicturebackend.model.entity.SpaceUser;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.enums.SpaceLevelEnum;
 import com.sion.sionpicturebackend.model.enums.SpaceRoleEnum;
 import com.sion.sionpicturebackend.model.enums.SpaceTypeEnum;
@@ -23,7 +23,7 @@ import com.sion.sionpicturebackend.model.vo.space.SpaceVO;
 import com.sion.sionpicturebackend.model.vo.user.UserVO;
 import com.sion.sionpicturebackend.service.SpaceService;
 import com.sion.sionpicturebackend.service.SpaceUserService;
-import com.sion.sionpicturebackend.service.UserService;
+import com.sion.sionpicture.application.service.UserApplicationService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -45,7 +45,7 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
         implements SpaceService {
 
     @Resource
-    private UserService userService;
+    private UserApplicationService userApplicationService;
 
     @Resource
     private TransactionTemplate transactionTemplate;
@@ -92,7 +92,7 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
 
         //权限校验
         if (SpaceLevelEnum.COMMON.getValue() != spaceAddRequest.getSpaceLevel()
-                && !userService.isAdmin(loginUser)) {
+                && !userApplicationService.isAdmin(loginUser)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "没有权限可以创建高级空间");
         }
         //针对用户进行加锁
@@ -100,7 +100,7 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
         synchronized (lock) {
 
             Long newSpaceId = transactionTemplate.execute(status -> {
-                if (!userService.isAdmin(loginUser)) {
+                if (!userApplicationService.isAdmin(loginUser)) {
                     // 判断是否也有空间
                     boolean exists = this.lambdaQuery()
                             .eq(Space::getUserId, userId)
@@ -195,8 +195,8 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
         // 关联查询用户信息
         Long userId = space.getUserId();
         if (userId != null && userId > 0) {
-            User user = userService.getById(userId);
-            UserVO userVO = userService.getUserVO(user);
+            User user = userApplicationService.getById(userId);
+            UserVO userVO = userApplicationService.getUserVO(user);
             spaceVO.setUser(userVO);
         }
         return spaceVO;
@@ -224,7 +224,7 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
         // 1,2,3,4
         Set<Long> userIdSet = spaceList.stream().map(Space::getUserId).collect(Collectors.toSet());
         // 1 => user1, 2 => user2
-        Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
+        Map<Long, List<User>> userIdUserListMap = userApplicationService.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
         // 2. 填充信息
         spaceVOList.forEach(spaceVO -> {
@@ -233,7 +233,7 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
             if (userIdUserListMap.containsKey(userId)) {
                 user = userIdUserListMap.get(userId).get(0);
             }
-            spaceVO.setUser(userService.getUserVO(user));
+            spaceVO.setUser(userApplicationService.getUserVO(user));
         });
         spaceVOPage.setRecords(spaceVOList);
         return spaceVOPage;
@@ -294,7 +294,7 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
     @Override
     public void checkSpaceAuth(User loginUser, Space space) {
         // 仅本人或管理员可编辑
-        if (!space.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
+        if (!space.getUserId().equals(loginUser.getId()) && !userApplicationService.isAdmin(loginUser)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
     }

@@ -1,11 +1,11 @@
 package com.sion.sionpicture.infrastructure.aop;
 
 import com.sion.sionpicture.infrastructure.annotation.AuthCheck;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicture.infrastructure.exception.BusinessException;
 import com.sion.sionpicture.infrastructure.exception.ErrorCode;
-import com.sion.sionpicturebackend.model.enums.UserRoleEnum;
-import com.sion.sionpicturebackend.service.UserService;
+import com.sion.sionpicture.domain.user.valueobject.UserRoleEnum;
+import com.sion.sionpicture.application.service.UserApplicationService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class AuthInterceptor {
     @Resource
-    private UserService userService;
+    private UserApplicationService userApplicationService;
 
     @Around("@annotation(authCheck)")
     public Object doIntecept(ProceedingJoinPoint joinPoint, AuthCheck authCheck) throws Throwable {
@@ -33,7 +33,7 @@ public class AuthInterceptor {
         RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
         // 当前登录用户
-        User loginUser = userService.getLoginUser(request);
+        User loginUser = userApplicationService.getLoginUser(request);
         UserRoleEnum mustRoleEnum = UserRoleEnum.getEnumByValue(musRole);
         // 不需要权限 , 放行
         if(mustRoleEnum == null) {

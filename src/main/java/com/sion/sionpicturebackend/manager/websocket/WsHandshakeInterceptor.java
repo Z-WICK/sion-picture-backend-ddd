@@ -5,11 +5,11 @@ import com.sion.sionpicturebackend.auth.SpaceUserAuthManager;
 import com.sion.sionpicturebackend.auth.model.SpaceUserPermissionConstant;
 import com.sion.sionpicturebackend.model.entity.Picture;
 import com.sion.sionpicturebackend.model.entity.Space;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.enums.SpaceTypeEnum;
 import com.sion.sionpicturebackend.service.PictureService;
 import com.sion.sionpicturebackend.service.SpaceService;
-import com.sion.sionpicturebackend.service.UserService;
+import com.sion.sionpicture.application.service.UserApplicationService;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.ServerHttpRequest;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class WsHandshakeInterceptor implements HandshakeInterceptor {
 
     @Resource
-    private UserService userService;
+    private UserApplicationService userApplicationService;
 
     @Resource
     private PictureService pictureService;
@@ -65,7 +65,7 @@ public class WsHandshakeInterceptor implements HandshakeInterceptor {
             }
 
             // 从请求中获取用户信息
-            User loginUser = userService.getLoginUser(servletRequest);
+            User loginUser = userApplicationService.getLoginUser(servletRequest);
             if (ObjUtil.isEmpty(loginUser)) {
                 log.error("用户未登录,拒绝握手");
                 return false;

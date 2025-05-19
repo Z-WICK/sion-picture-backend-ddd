@@ -1,6 +1,6 @@
 package com.sion.sionpicture.infrastructure.mapper;
 
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

@@ -1,4 +1,4 @@
-package com.sion.sionpicturebackend.model.enums;
+package com.sion.sionpicture.domain.user.valueobject;
 
 import cn.hutool.core.util.ObjUtil;
 import lombok.Getter;

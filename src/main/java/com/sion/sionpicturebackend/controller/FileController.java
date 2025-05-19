@@ -6,7 +6,7 @@ import com.qcloud.cos.utils.IOUtils;
 import com.sion.sionpicture.infrastructure.annotation.AuthCheck;
 import com.sion.sionpicture.infrastructure.common.BaseResponse;
 import com.sion.sionpicture.infrastructure.common.ResultUtils;
-import com.sion.sionpicturebackend.constant.UserConstant;
+import com.sion.sionpicture.domain.user.constant.UserConstant;
 import com.sion.sionpicture.infrastructure.exception.BusinessException;
 import com.sion.sionpicture.infrastructure.exception.ErrorCode;
 import com.sion.sionpicture.infrastructure.api.CosManager;

@@ -11,14 +11,14 @@ import com.sion.sionpicturebackend.model.dto.spaceuser.SpaceUserAddRequest;
 import com.sion.sionpicturebackend.model.dto.spaceuser.SpaceUserQueryRequest;
 import com.sion.sionpicturebackend.model.entity.Space;
 import com.sion.sionpicturebackend.model.entity.SpaceUser;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.enums.SpaceRoleEnum;
 import com.sion.sionpicturebackend.model.vo.SpaceUserVO;
 import com.sion.sionpicturebackend.model.vo.space.SpaceVO;
 import com.sion.sionpicturebackend.model.vo.user.UserVO;
 import com.sion.sionpicturebackend.service.SpaceService;
 import com.sion.sionpicturebackend.service.SpaceUserService;
-import com.sion.sionpicturebackend.service.UserService;
+import com.sion.sionpicture.application.service.UserApplicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Lazy;
@@ -43,7 +43,7 @@ public class SpaceUserServiceImpl extends ServiceImpl<SpaceUserMapper, SpaceUser
         implements SpaceUserService {
 
     @Resource
-    private  UserService userService;
+    private UserApplicationService userApplicationService;
 
     @Resource
     @Lazy
@@ -86,7 +86,7 @@ public class SpaceUserServiceImpl extends ServiceImpl<SpaceUserMapper, SpaceUser
         if (add) {
             ThrowUtils.throwIf(ObjUtil.hasEmpty(spaceId, userId), ErrorCode.PARAMS_ERROR, "空间 ID 和用户 ID 不能为空");
 
-            User user = userService.getById(userId);
+            User user = userApplicationService.getById(userId);
             ThrowUtils.throwIf(user == null, ErrorCode.PARAMS_ERROR, "用户不存在");
 
             Space space = spaceService.getById(spaceId);
@@ -146,8 +146,8 @@ public class SpaceUserServiceImpl extends ServiceImpl<SpaceUserMapper, SpaceUser
         // 关联查询用户信息
         Long userId = spaceUser.getUserId();
         if(userId != null && userId > 0){
-            User user = userService.getById(userId);
-            UserVO userVO = userService.getUserVO(user);
+            User user = userApplicationService.getById(userId);
+            UserVO userVO = userApplicationService.getUserVO(user);
             spaceUserVO.setUser(userVO);
         }
 
@@ -193,7 +193,7 @@ public class SpaceUserServiceImpl extends ServiceImpl<SpaceUserMapper, SpaceUser
 
         // 2. 批量查询用户和空间
         // 根据用户ID集合，获取用户列表，并将用户列表按照用户ID进行分组
-        Map<Long,List<User>> userIdUserListMap = userService
+        Map<Long,List<User>> userIdUserListMap = userApplicationService
                 .listByIds(userIdSet)
                 .stream()
                 .collect(Collectors.groupingBy(User::getId));
@@ -218,7 +218,7 @@ public class SpaceUserServiceImpl extends ServiceImpl<SpaceUserMapper, SpaceUser
             if(userIdUserListMap.containsKey(userId)){
                 user = userIdUserListMap.get(userId).get(0);
             }
-            spaceUserVO.setUser(userService.getUserVO(user));
+            spaceUserVO.setUser(userApplicationService.getUserVO(user));
 
             // 填充空间信息
             Space space = null;

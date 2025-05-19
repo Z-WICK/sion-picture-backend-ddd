@@ -2,7 +2,7 @@ package com.sion.sionpicturebackend.service;
 
 import com.sion.sionpicturebackend.model.dto.space.analyze.*;
 import com.sion.sionpicturebackend.model.entity.Space;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.vo.space.analyze.*;
 
 import java.util.List;

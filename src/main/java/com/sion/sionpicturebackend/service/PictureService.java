@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.sion.sionpicture.infrastructure.api.aliyunai.model.CreateOutPaintingTaskResponse;
 import com.sion.sionpicturebackend.model.dto.picture.*;
 import com.sion.sionpicturebackend.model.entity.Picture;
-import com.sion.sionpicturebackend.model.entity.User;
+import com.sion.sionpicture.domain.user.entity.User;
 import com.sion.sionpicturebackend.model.vo.picture.PictureVO;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.annotation.Transactional;

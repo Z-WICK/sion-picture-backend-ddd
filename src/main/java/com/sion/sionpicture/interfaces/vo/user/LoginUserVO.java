@@ -1,4 +1,4 @@
-package com.sion.sionpicturebackend.model.vo.user;
+package com.sion.sionpicture.interfaces.vo.user;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

@@ -1,4 +1,4 @@
-package com.sion.sionpicturebackend.constant;
+package com.sion.sionpicture.domain.user.constant;
 
 /**
  * @Author : wick
