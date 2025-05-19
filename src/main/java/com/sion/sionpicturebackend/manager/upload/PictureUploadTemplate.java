@@ -12,7 +12,7 @@ import com.qcloud.cos.model.ciModel.persistence.ProcessResults;
 import com.sion.sionpicture.infrastructure.config.CosClientConfig;
 import com.sion.sionpicture.infrastructure.exception.BusinessException;
 import com.sion.sionpicture.infrastructure.exception.ErrorCode;
-import com.sion.sionpicturebackend.manager.CosManager;
+import com.sion.sionpicture.infrastructure.api.CosManager;
 import com.sion.sionpicturebackend.model.dto.file.UploadPictureResult;
 import lombok.extern.slf4j.Slf4j;
 

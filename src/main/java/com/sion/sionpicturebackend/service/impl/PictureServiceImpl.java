@@ -14,7 +14,7 @@ import com.sion.sionpicture.infrastructure.api.aliyunai.model.CreateOutPaintingT
 import com.sion.sionpicture.infrastructure.exception.BusinessException;
 import com.sion.sionpicture.infrastructure.exception.ErrorCode;
 import com.sion.sionpicture.infrastructure.exception.ThrowUtils;
-import com.sion.sionpicturebackend.manager.CosManager;
+import com.sion.sionpicture.infrastructure.api.CosManager;
 import com.sion.sionpicturebackend.manager.upload.FilePictureUpload;
 import com.sion.sionpicturebackend.manager.upload.PictureUploadTemplate;
 import com.sion.sionpicturebackend.manager.upload.UrlPictureUpload;

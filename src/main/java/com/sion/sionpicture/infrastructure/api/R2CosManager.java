@@ -1,4 +1,4 @@
-package com.sion.sionpicturebackend.manager;
+package com.sion.sionpicture.infrastructure.api;
 
 import cn.hutool.core.io.FileUtil;
 import com.sion.sionpicture.infrastructure.config.R2ClientConfig;

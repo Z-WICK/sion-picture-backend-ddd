@@ -12,6 +12,7 @@ import cn.hutool.http.Method;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.model.ciModel.persistence.ImageInfo;
+import com.sion.sionpicture.infrastructure.api.CosManager;
 import com.sion.sionpicture.infrastructure.config.CosClientConfig;
 import com.sion.sionpicture.infrastructure.exception.BusinessException;
 import com.sion.sionpicture.infrastructure.exception.ErrorCode;
